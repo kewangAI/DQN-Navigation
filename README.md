@@ -65,7 +65,7 @@ The task is episodic, and in order to solve the environment, your agent must get
    
 ### Examples
    - __A__ : python Navigation.py --test --no-train -nfile 'myneural.pth'
-   - __D__ : python Navigation.py --test --ddqn
+   - __B__ : python Navigation.py --test --ddqn
  
 
 ## TODO
