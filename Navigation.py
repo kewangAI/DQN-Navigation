@@ -8,7 +8,7 @@ import argparse
 from dqn_agent import Agent
 
 
-def dqn(env, agent, nfile, n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.001, eps_decay=0.98):
+def dqn(env, agent, nfile, n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.001, eps_decay=0.985):
     """Deep Q-Learning.
 
     Params
@@ -73,12 +73,16 @@ def test_agent(agent, brain_name):
     return total_reward
 
 def plot_save_score(scores, file_name):
+    v_scores = np.array([range(1, len(scores)+1), scores])
+    np.savetxt(file_name, np.transpose(v_scores), delimiter=',')
+
     fig = plt.figure()
     ax = fig.add_subplot(111)
     plt.plot(np.arange(len(scores)), scores)
     plt.ylabel('Score')
     plt.xlabel('Episode #')
     plt.show()
+    fig.savefig("training.pdf", bbox_inches='tight')
 
 if __name__ == '__main__':
 
@@ -134,7 +138,7 @@ if __name__ == '__main__':
 
     if args.train :
         scores, scores_mean = dqn(env, agent, args.nerualfile)
-        
+        ofile = "score_history.csv"
         plot_save_score(scores_mean, ofile)
 
     if args.test :

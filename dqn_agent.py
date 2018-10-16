@@ -11,9 +11,9 @@ import torch.optim as optim
 BUFFER_SIZE = int(1e5)  # replay buffer size
 BATCH_SIZE = 64         # minibatch size
 GAMMA = 0.99            # discount factor
-TAU = 1e-3              # for soft update of target parameters
+TAU = 2e-3              # for soft update of target parameters
 LR = 5e-4               # learning rate 
-UPDATE_EVERY = 4        # how often to update the network
+UPDATE_EVERY = 3        # how often to update the network
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -114,9 +114,9 @@ class Agent():
 
         # double dqn
         if self.double:
-            action_values_next = self.qnetwork_target(next_states).detach()
+            action_values_next = self.qnetwork_local(next_states).detach()
             next_best_action = np.argmax(action_values_next.cpu().data.numpy(),axis=1)
-            Q_targets_next2 = self.qnetwork_local(next_states).detach().cpu().data.numpy()
+            Q_targets_next2 = self.qnetwork_target(next_states).detach().cpu().data.numpy()
             Q_targets_next = torch.from_numpy(Q_targets_next2[:, next_best_action][:,0]).unsqueeze(1).to(device)
             # print(next_best_action)
         else: #original DQN
